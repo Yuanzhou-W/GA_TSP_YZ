@@ -3,11 +3,20 @@
 import argparse
 import json
 import os
+import sys
 
 import matplotlib.pyplot as plt
 import numpy as np
 
-from utils.tsp_loader import load_tsp
+# --------------------------------------------------
+# Ensure project root in PYTHONPATH
+# --------------------------------------------------
+PROJECT_ROOT = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..")
+)
+sys.path.insert(0, PROJECT_ROOT)
+
+import utils.tsp_loader
 
 
 def compute_tour_length(tour, dist):
@@ -27,22 +36,21 @@ def main():
     )
     args = parser.parse_args()
 
-    # Load data
-    tsp = load_tsp(args.tsp)
-    coords = tsp.coords
+    # ---------------- Load TSP ----------------
+    tsp = utils.tsp_loader.load_tsp(args.tsp)
+    coords = np.asarray(tsp.coords)  # ✅ 关键修复
     dist = tsp.distance_matrix
 
+    # ---------------- Load result ----------------
     with open(args.result, "r", encoding="utf-8") as f:
         log = json.load(f)
 
     tour = np.array(log["best_individual"])
-    best_length = log["summary"]["best_length"]
+    best_length = log["best_length"]
     strategy = log["meta"]["strategy"]
 
-    generations = log["generations"]
-    convergence = [
-        1.0 / g["metrics"]["best_fitness"] for g in generations
-    ]
+    # ✅ 正确的收敛曲线接口
+    convergence = log["history"]["best_length"]
 
     # ---------------- Plot ----------------
     fig, axes = plt.subplots(1, 2, figsize=(14, 6))

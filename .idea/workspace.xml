@@ -4,14 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f684aac7-6f16-41ae-a7de-aa7acc4a0ce4" name="更改" comment="在调接口">
+    <list default="true" id="f684aac7-6f16-41ae-a7de-aa7acc4a0ce4" name="更改" comment="gemini终于调好了">
+      <change afterPath="$PROJECT_DIR$/analysis/compare_edge_frequency_multi_ga.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/analysis/compare_routes_multi_ga.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ga/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/ga/engine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ga/operators/selection.py" beforeDir="false" afterPath="$PROJECT_DIR$/ga/operators/selection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ga/strategies/adaptive.py" beforeDir="false" afterPath="$PROJECT_DIR$/ga/strategies/adaptive.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ga/strategies/classic.py" beforeDir="false" afterPath="$PROJECT_DIR$/ga/strategies/classic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ga/strategies/classic_sus.py" beforeDir="false" afterPath="$PROJECT_DIR$/ga/strategies/classic_sus.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ga/strategies/semi_adaptive.py" beforeDir="false" afterPath="$PROJECT_DIR$/ga/strategies/semi_adaptive.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/path_stability_overlay.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/path_stability_overlay.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/plot_tsp_route.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/plot_tsp_route.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/show_route_and_convergence.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/show_route_and_convergence.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiment/run_experiment.py" beforeDir="false" afterPath="$PROJECT_DIR$/experiment/run_experiment.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +61,8 @@
     "Python.analysis.executor": "Run",
     "Python.download.executor": "Run",
     "Python.engine.executor": "Run",
+    "Python.python analysis/compare_routes_multi_ga.py \\.executor": "Run",
+    "Python.python analysis/show_route_and_convergence.py \\.executor": "Run",
     "Python.run_experiment.executor": "Run",
     "Python.tsp_loader.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -86,6 +89,60 @@
       <recent name="D:\obisidian_dataset\UCAS_BIG2528\UCAS_course\演化计算\GA_TSP_YZ\GA_TSP_YZ" />
     </key>
   </component>
+  <component name="RunManager" selected="Python.python analysis/compare_routes_multi_ga.py \">
+    <configuration name="python analysis/compare_routes_multi_ga.py \" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="GA_TSP_YZ" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="analysis/compare_routes_multi_ga.py" />
+      <option name="PARAMETERS" value="\" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="python analysis/show_route_and_convergence.py \" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="GA_TSP_YZ" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="analysis/show_route_and_convergence.py" />
+      <option name="PARAMETERS" value="\" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.python analysis/compare_routes_multi_ga.py \" />
+        <item itemvalue="Python.python analysis/show_route_and_convergence.py \" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -102,7 +159,7 @@
       <option name="presentableId" value="Default" />
       <updated>1766912423819</updated>
       <workItem from="1766912425080" duration="3552000" />
-      <workItem from="1766991220393" duration="10539000" />
+      <workItem from="1766991220393" duration="16116000" />
     </task>
     <task id="LOCAL-00001" summary="a try">
       <option name="closed" value="true" />
@@ -144,23 +201,45 @@
       <option name="project" value="LOCAL" />
       <updated>1766999298751</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="gemini终于调好了">
+      <option name="closed" value="true" />
+      <created>1767002094464</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1767002094464</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="a try" />
     <MESSAGE value="a version" />
     <MESSAGE value="在调接口" />
-    <option name="LAST_COMMIT_MESSAGE" value="在调接口" />
+    <MESSAGE value="gemini终于调好了" />
+    <option name="LAST_COMMIT_MESSAGE" value="gemini终于调好了" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/GA_TSP_YZ$engine.coverage" NAME="engine 覆盖结果" MODIFIED="1767000576300" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ga" />
+    <SUITE FILE_PATH="coverage/GA_TSP_YZ$python_analysis_show_route_and_convergence_py__.coverage" NAME="python analysis/show_route_and_convergence.py \ 覆盖结果" MODIFIED="1767005322340" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/GA_TSP_YZ$tsp_loader.coverage" NAME="tsp_loader 覆盖结果" MODIFIED="1766915927885" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
     <SUITE FILE_PATH="coverage/GA_TSP_YZ$download.coverage" NAME="download 覆盖结果" MODIFIED="1766914204252" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data" />
-    <SUITE FILE_PATH="coverage/GA_TSP_YZ$run_experiment.coverage" NAME="run_experiment 覆盖结果" MODIFIED="1767001923143" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/experiment" />
-    <SUITE FILE_PATH="coverage/GA_TSP_YZ$analysis.coverage" NAME="analysis 覆盖结果" MODIFIED="1766916538047" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/analysis" />
+    <SUITE FILE_PATH="coverage/GA_TSP_YZ$python_analysis_compare_routes_multi_ga_py__.coverage" NAME="python analysis/compare_routes_multi_ga.py \ 覆盖结果" MODIFIED="1767012917044" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/GA_TSP_YZ$run_experiment.coverage" NAME="run_experiment 覆盖结果" MODIFIED="1767011484388" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/experiment" />
+    <SUITE FILE_PATH="coverage/GA_TSP_YZ$analysis.coverage" NAME="analysis 覆盖结果" MODIFIED="1767011660732" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/analysis" />
   </component>
 </project>

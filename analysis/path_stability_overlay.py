@@ -3,10 +3,19 @@
 import argparse
 import json
 import os
+import sys
 from collections import defaultdict
 
 import matplotlib.pyplot as plt
 import numpy as np
+
+# --------------------------------------------------
+# Fix import path
+# --------------------------------------------------
+PROJECT_ROOT = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..")
+)
+sys.path.insert(0, PROJECT_ROOT)
 
 from utils.tsp_loader import load_tsp
 
@@ -34,7 +43,7 @@ def main():
     args = parser.parse_args()
 
     tsp = load_tsp(args.tsp)
-    coords = tsp.coords
+    coords = np.asarray(tsp.coords)   # 🔧 fix
 
     files = sorted(
         f for f in os.listdir(args.results)
@@ -44,10 +53,14 @@ def main():
         files = files[:args.n_runs]
 
     edge_count = defaultdict(int)
+    strategy_name = None
 
     for fname in files:
         with open(os.path.join(args.results, fname), "r", encoding="utf-8") as f:
             log = json.load(f)
+
+        if strategy_name is None:
+            strategy_name = log["meta"]["strategy"]
 
         tour = np.array(log["best_individual"])
         edges = extract_edges(tour)
@@ -72,9 +85,8 @@ def main():
             linewidth=0.5 + 3.0 * (count / max_count)
         )
 
-    strategy = log["meta"]["strategy"]
     plt.title(
-        f"Edge Frequency Stability\n{strategy} ({len(files)} runs)"
+        f"Edge Frequency Stability\n{strategy_name} ({len(files)} runs)"
     )
     plt.axis("equal")
     plt.axis("off")

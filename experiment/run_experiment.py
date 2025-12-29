@@ -76,13 +76,13 @@ def main():
     distance_matrix = tsp.distance_matrix
 
     strategies = [
-        ClassicGAStrategy(classic_config),
-        ClassicSUSGAStrategy(classic_config),
+        ClassicGAStrategy(classic_config.copy()),
+        ClassicSUSGAStrategy(classic_config.copy()),
         SemiAdaptiveGAStrategy({
             **adaptive_config,
             "selection_method": "roulette"
         }),
-        AdaptiveGAStrategy(adaptive_config)
+        AdaptiveGAStrategy(adaptive_config.copy())
     ]
 
     ensure_dir(RESULT_ROOT)

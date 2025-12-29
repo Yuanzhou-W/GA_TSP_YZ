@@ -3,9 +3,18 @@
 import argparse
 import json
 import os
+import sys
 
 import matplotlib.pyplot as plt
 import numpy as np
+
+# --------------------------------------------------
+# Fix import path
+# --------------------------------------------------
+PROJECT_ROOT = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..")
+)
+sys.path.insert(0, PROJECT_ROOT)
 
 from utils.tsp_loader import load_tsp
 
@@ -79,15 +88,14 @@ def main():
 
     # Load TSP
     tsp = load_tsp(args.tsp)
-    coords = tsp.coords
-    distance_matrix = tsp.distance_matrix
+    coords = np.asarray(tsp.coords)          # 🔧 fix
+    distance_matrix = np.asarray(tsp.distance_matrix)
 
     # Load GA result
     with open(args.result, "r", encoding="utf-8") as f:
         log = json.load(f)
 
     best_individual = log.get("best_individual")
-
     if best_individual is None:
         raise ValueError("best_individual not found in result file.")
 
