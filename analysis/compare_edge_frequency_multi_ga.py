@@ -102,7 +102,7 @@ def main():
     )
     parser.add_argument("--tsp", required=True)
     parser.add_argument(
-        "--results",
+        "--experiment_results",
         nargs="+",
         required=True,
         help="List of strategy result directories"
@@ -121,7 +121,7 @@ def main():
     )
     parser.add_argument(
         "--out",
-        default="analysis/results/figures/edge_frequency_comparison.png"
+        default="analysis/experiment_results/figures/edge_frequency_comparison.png"
     )
     args = parser.parse_args()
 

@@ -15,8 +15,8 @@ import numpy as np
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
 
-RESULT_ROOT = os.path.join(PROJECT_ROOT, "results", "experiments")
-FIGURE_DIR = os.path.join(PROJECT_ROOT, "results", "figures")
+RESULT_ROOT = os.path.join(PROJECT_ROOT, "experiment_results", "experiments")
+FIGURE_DIR = os.path.join(PROJECT_ROOT, "experiment_results", "figures")
 
 os.makedirs(FIGURE_DIR, exist_ok=True)
 
@@ -28,7 +28,7 @@ os.makedirs(FIGURE_DIR, exist_ok=True)
 
 def load_all_results():
     """
-    Load all GA experiment results.
+    Load all GA experiment experiment_results.
     Returns:
         data[strategy] = list of run_logs
     """
@@ -207,7 +207,7 @@ def main():
     data = load_all_results()
 
     if not data:
-        raise RuntimeError("No experiment results found.")
+        raise RuntimeError("No experiment experiment_results found.")
 
     plot_convergence(data)
     plot_stability(data)

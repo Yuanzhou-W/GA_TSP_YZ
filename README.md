@@ -127,7 +127,7 @@ python analysis/analysis.py
 ```bash
 python analysis/show_route_and_convergence.py \
   --tsp data/ch130.tsp \
-  --result results/experiments/AdaptiveGA/run_001.json
+  --result experiment_results/experiments/AdaptiveGA/run_001.json
 ```
 
 📌 一张图同时展示：
@@ -142,11 +142,11 @@ python analysis/show_route_and_convergence.py \
 ```bash
 python analysis/compare_routes_multi_ga.py \
   --tsp data/ch130.tsp \
-  --results \
-    results/experiments/ClassicGA/run_001.json \
-    results/experiments/ClassicGA_SUS/run_001.json \
-    results/experiments/SemiAdaptiveGA/run_001.json \
-    results/experiments/AdaptiveGA/run_001.json
+  --experiment_results \
+    experiment_results/experiments/ClassicGA/run_001.json \
+    experiment_results/experiments/ClassicGA_SUS/run_001.json \
+    experiment_results/experiments/SemiAdaptiveGA/run_001.json \
+    experiment_results/experiments/AdaptiveGA/run_001.json
 ```
 
 📌 **非常适合答辩 / PPT 展示**
@@ -160,7 +160,7 @@ python analysis/compare_routes_multi_ga.py \
 ```bash
 python analysis/path_stability_overlay.py \
   --tsp data/ch130.tsp \
-  --results results/experiments/AdaptiveGA \
+  --experiment_results experiment_results/experiments/AdaptiveGA \
   --n_runs 10
 ```
 
@@ -169,11 +169,11 @@ python analysis/path_stability_overlay.py \
 ```bash
 python analysis/compare_edge_frequency_multi_ga.py \
   --tsp data/ch130.tsp \
-  --results \
-    results/experiments/ClassicGA \
-    results/experiments/ClassicGA_SUS \
-    results/experiments/SemiAdaptiveGA \
-    results/experiments/AdaptiveGA \
+  --experiment_results \
+    experiment_results/experiments/ClassicGA \
+    experiment_results/experiments/ClassicGA_SUS \
+    experiment_results/experiments/SemiAdaptiveGA \
+    experiment_results/experiments/AdaptiveGA \
   --labels \
     "Classic GA" \
     "Classic GA + SUS" \

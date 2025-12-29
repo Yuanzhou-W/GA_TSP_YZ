@@ -34,11 +34,11 @@ def main():
         description="Edge frequency stability visualization"
     )
     parser.add_argument("--tsp", required=True)
-    parser.add_argument("--results", required=True)
+    parser.add_argument("--experiment_results", required=True)
     parser.add_argument("--n_runs", type=int, default=None)
     parser.add_argument(
         "--out",
-        default="analysis/results/figures/edge_frequency.png"
+        default="analysis/experiment_results/figures/edge_frequency.png"
     )
     args = parser.parse_args()
 

@@ -33,14 +33,14 @@ def main():
     )
     parser.add_argument("--tsp", required=True)
     parser.add_argument(
-        "--results",
+        "--experiment_results",
         nargs="+",
         required=True,
         help="List of GA result json files"
     )
     parser.add_argument(
         "--out",
-        default="analysis/results/figures/route_comparison.png"
+        default="analysis/experiment_results/figures/route_comparison.png"
     )
     args = parser.parse_args()
 

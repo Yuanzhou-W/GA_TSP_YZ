@@ -17,7 +17,7 @@ from utils.tsp_loader import load_tsp
 # --------------------------------------------------
 
 TSP_PATH = "../data/ch130.tsp"
-RESULT_ROOT = "../results/experiments"
+RESULT_ROOT = "../experiment_results/experiments"
 
 POP_SIZE = 100
 MAX_GENERATIONS = 500

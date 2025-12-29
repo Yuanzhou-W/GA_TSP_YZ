@@ -32,7 +32,7 @@ def main():
     parser.add_argument("--result", required=True)
     parser.add_argument(
         "--out",
-        default="analysis/results/figures/route_and_convergence.png"
+        default="analysis/experiment_results/figures/route_and_convergence.png"
     )
     args = parser.parse_args()
 

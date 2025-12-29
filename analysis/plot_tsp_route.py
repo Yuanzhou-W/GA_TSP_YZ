@@ -80,7 +80,7 @@ def main():
     parser.add_argument("--result", required=True, help="GA run json file")
     parser.add_argument(
         "--out",
-        default="analysis/results/figures/best_route.png",
+        default="analysis/experiment_results/figures/best_route.png",
         help="Output image path"
     )
 
