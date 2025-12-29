@@ -1,263 +1,213 @@
-# Adaptive Operator Genetic Algorithm for TSP (cn130)
+# 🧬 GA-TSP-cn130
 
-> 🎯 **Project Focus**: Adaptive Operator Strategies in Genetic Algorithms
-> 📌 **Problem**: Traveling Salesman Problem (TSP) – TSPLIB instance **cn130**
-> 🧠 **Core Topic**: *Adaptive Selection, Crossover, and Mutation Operators*
-> 🐍 **Language**: Python
+**A Comparative Study of Classical and Adaptive Genetic Algorithms on TSP**
 
----
-
-## 1. Project Motivation
-
-Traditional Genetic Algorithms (GAs) for TSP usually rely on **fixed operator strategies**, such as:
-
-* Fixed crossover probability (Pc)
-* Fixed mutation probability (Pm)
-* Single selection method (e.g. roulette wheel or tournament)
-
-However, recent studies indicate that such fixed strategies often suffer from:
-
-* Premature convergence
-* Loss of population diversity
-* Inefficiency on medium-to-large TSP instances
-
-📚 **Recent research (2023–2025)** shows that **adaptive operator strategies** significantly improve GA robustness and performance:
-
-* Adaptive selection mechanisms better maintain diversity (PPHMJ)
-* Dynamic Pc/Pm adjustment helps avoid early stagnation (技师学院学报)
-
-This project aims to **systematically study, implement, and visualize** these adaptive strategies using the cn130 benchmark.
+> 本项目以 TSPLIB 中的 **cn130 Traveling Salesman Problem** 为测试算例，
+> 系统性对比了多种经典遗传算法与自适应遗传算法在 **收敛性能、稳定性与路径结构** 方面的差异。
 
 ---
 
-## 2. Research Objectives
+## ✨ 项目亮点（Why this project matters）
 
-This project is designed as a **learning + experimental + comparative** GitHub repository.
-
-### Primary Objectives
-
-1. Implement a **baseline GA** for TSP (fixed operators)
-2. Design and implement **adaptive operator strategies**
-3. Compare adaptive vs non-adaptive GA in terms of:
-
-   * Convergence speed
-   * Solution quality
-   * Population diversity
-   * Stability across runs
-
-### Secondary Objectives
-
-* Provide **clear visualization** of GA dynamics
-* Offer **modular, extensible Python code**
-* Serve as a **reference project** for evolutionary computation learning
+* ✅ **四种 GA 的严格对照实验设计**
+* ✅ **自适应算子策略（Adaptive Operators）**
+* ✅ **多次运行下的路径结构稳定性分析**
+* ✅ **研究级可视化（收敛、路径、边频率）**
+* ✅ **工程化实现，可复现实验**
 
 ---
 
-## 3. Problem Description: TSP cn130
+## 🧪 算法对比设置
 
-* Source: TSPLIB
-* Number of cities: 130
-* Distance type: Euclidean
-* Known optimal solution exists (used for evaluation, not optimization)
+本项目实现并对比了以下四种遗传算法：
 
-The cn130 instance is large enough to:
-
-* Expose premature convergence problems
-* Highlight differences between operator strategies
-* Remain computationally feasible in Python
+| 编号   | 算法名称             | 参数策略 | 选择策略     | 研究目的      |
+| ---- | ---------------- | ---- | -------- | --------- |
+| GA-1 | Classic GA       | 固定   | Roulette | 基线方法      |
+| GA-2 | Classic GA + SUS | 固定   | SUS      | 分析选择机制影响  |
+| GA-3 | Semi-Adaptive GA | 自适应  | 固定       | 分析参数自适应影响 |
+| GA-4 | Adaptive GA      | 自适应  | 自适应      | 综合改进方法    |
 
 ---
 
-## 4. Algorithm Overview
+## 📁 项目结构
 
-### 4.1 Baseline Genetic Algorithm (GA)
-
-The baseline GA consists of:
-
-1. **Encoding**: Permutation encoding (city order)
-2. **Initialization**: Random permutation population
-3. **Selection**: Fixed roulette wheel / tournament
-4. **Crossover**: Fixed-probability PMX / OX
-5. **Mutation**: Fixed-probability swap / inversion
-6. **Replacement**: Elitism + generational replacement
-
-This baseline serves as the **control group**.
-
----
-
-## 5. Adaptive Operator Strategies (Core Contribution)
-
-This project focuses on **Section 2.2: Adaptive Operators**.
-
-### 5.1 Adaptive Selection Strategy
-
-Instead of using a single fixed selection operator, we adopt a **multi-strategy adaptive selection**:
-
-* Roulette Wheel Selection
-* Stochastic Universal Sampling (SUS)
-
-#### Strategy Mixing
-
-At each generation:
-
-* Selection methods are chosen probabilistically
-* Probabilities are adjusted based on:
-
-  * Population fitness variance
-  * Improvement rate of best fitness
-
-📌 **Motivation**:
-
-* Roulette wheel → strong exploitation
-* SUS → better diversity preservation
-
----
-
-### 5.2 Adaptive Crossover Probability (Pc)
-
-Rather than a fixed Pc, crossover probability is **dynamically adjusted**.
-
-#### Typical Rule
-
-* High diversity → lower Pc
-* Low diversity / stagnation → higher Pc
-
-Example:
-
-```
-Pc(t) = Pc_max - (Pc_max - Pc_min) * (σ_f / σ_f_max)
-```
-
-Where:
-
-* σ_f = current population fitness standard deviation
-
-📌 **Effect**:
-
-* Encourages exploration when population becomes homogeneous
-* Reduces disruption when diversity is sufficient
-
----
-
-### 5.3 Adaptive Mutation Probability (Pm)
-
-Mutation probability increases when the algorithm stagnates.
-
-#### Trigger Conditions
-
-* Best fitness unchanged for N generations
-* Rapid loss of diversity
-
-Example:
-
-```
-Pm(t) = Pm_min + (Pm_max - Pm_min) * stagnation_ratio
-```
-
-📌 **Effect**:
-
-* Helps escape local optima
-* Prevents early convergence
-
----
-
-### 5.4 Diversity Measurement
-
-Population diversity is explicitly measured using:
-
-* Average pairwise Hamming distance
-* Fitness variance
-
-These metrics drive **adaptive decisions**.
-
----
-
-## 6. Experimental Design
-
-### 6.1 Experiment Groups
-
-| Group            | Selection | Pc       | Pm       |
-| ---------------- | --------- | -------- | -------- |
-| GA-Basic         | Fixed     | Fixed    | Fixed    |
-| GA-Adaptive-P    | Fixed     | Adaptive | Adaptive |
-| GA-Adaptive-S    | Adaptive  | Fixed    | Fixed    |
-| GA-Full-Adaptive | Adaptive  | Adaptive | Adaptive |
-
----
-
-### 6.2 Evaluation Metrics
-
-Each algorithm variant is evaluated over **multiple independent runs**:
-
-1. Best tour length
-2. Average tour length
-3. Convergence speed
-4. Population diversity curve
-5. Stability (std over runs)
-
----
-
-### 6.3 Visualization
-
-Planned visual outputs:
-
-* Fitness vs generation
-* Diversity vs generation
-* Pc / Pm evolution curves
-* Best route visualization
-
----
-
-## 7. Project Structure
-
-```
-Adaptive-Operator-GA-for-TSP/
+```text
+GA_TSP_YZ/
+│  main.py
+│  README.md
+│  requirements.txt
 │
-├── data/
-│   └── cn130.tsp
+├─data/
+│   └─ ch130.tsp
 │
-├── ga/
-│   ├── encoding.py
-│   ├── population.py
-│   ├── selection.py
-│   ├── crossover.py
-│   ├── mutation.py
-│   ├── adaptive.py
-│   └── metrics.py
+├─experiment/
+│   └─ run_experiment.py          # 一键运行四种 GA
 │
-├── experiments/
-│   ├── run_basic_ga.py
-│   ├── run_adaptive_ga.py
-│   └── config.yaml
+├─ga/
+│   ├─ engine.py                  # 通用 GA 引擎
+│   ├─ selection.py
+│   ├─ crossover.py
+│   ├─ mutation.py
+│   ├─ metrics.py
+│   └─ strategies/
+│       ├─ base.py
+│       ├─ classic.py
+│       ├─ classic_sus.py
+│       ├─ semi_adaptive.py
+│       └─ adaptive.py
 │
-├── visualization/
-│   └── plots.py
+├─analysis/
+│   ├─ analysis.py                # 多算法性能对比图
+│   ├─ show_route_and_convergence.py
+│   ├─ compare_routes_multi_ga.py
+│   ├─ path_stability_overlay.py
+│   └─ compare_edge_frequency_multi_ga.py
 │
-├── results/
-│
-├── README.md
-└── requirements.txt
+└─results/
+    └─ experiments/               # 实验自动输出
 ```
 
 ---
 
-## 8. Dependencies
+## 🚀 快速开始（One-Command Run）
 
-* Python ≥ 3.9
-* NumPy
-* Matplotlib
-* Pandas
-* tqdm
+### 1️⃣ 安装依赖
+
+```bash
+pip install -r requirements.txt
+```
 
 ---
 
-## 9. References
+### 2️⃣ 一键运行所有 GA 对比实验 ⭐（推荐）
 
-* Adaptive multi-strategy selection in GA, PPHMJ
-* Genetic algorithm with dynamic Pc/Pm, 技师学院学报
-* Goldberg, *Genetic Algorithms in Search, Optimization, and Machine Learning*
-* TSPLIB documentation
+```bash
+python experiment/run_experiment.py
+```
 
+运行后将自动：
 
+* 在 **同一 cn130 实例** 上
+* 依次运行 **4 种遗传算法**
+* 保存完整实验日志到：
 
-> 📌 This repository is intended for **educational, experimental, and research demonstration purposes**, with a strong emphasis on *understanding how adaptive operators change GA dynamics*.
+```text
+results/experiments/
+├─ ClassicGA/
+├─ ClassicGA_SUS/
+├─ SemiAdaptiveGA/
+└─ AdaptiveGA/
+```
+
+---
+
+## 📊 结果分析与可视化
+
+> 所有可视化脚本均 **只读结果文件，不重新跑 GA**
+
+---
+
+### 🔹 1. 收敛曲线 & 稳定性对比
+
+```bash
+python analysis/analysis.py
+```
+
+生成图像：
+
+* 收敛曲线对比（fitness_convergence）
+* 多次运行稳定性箱线图
+* 运行时间对比
+
+---
+
+### 🔹 2. 单算法：路径 + 收敛联合展示
+
+```bash
+python analysis/show_route_and_convergence.py \
+  --tsp data/ch130.tsp \
+  --result results/experiments/AdaptiveGA/run_001.json
+```
+
+📌 一张图同时展示：
+
+* 最优路径
+* 收敛过程
+
+---
+
+### 🔹 3. 多算法最优路径同图对比（直观）
+
+```bash
+python analysis/compare_routes_multi_ga.py \
+  --tsp data/ch130.tsp \
+  --results \
+    results/experiments/ClassicGA/run_001.json \
+    results/experiments/ClassicGA_SUS/run_001.json \
+    results/experiments/SemiAdaptiveGA/run_001.json \
+    results/experiments/AdaptiveGA/run_001.json
+```
+
+📌 **非常适合答辩 / PPT 展示**
+
+---
+
+### 🔹 4. 多次运行路径稳定性分析（高级）
+
+#### （1）路径叠加透明图
+
+```bash
+python analysis/path_stability_overlay.py \
+  --tsp data/ch130.tsp \
+  --results results/experiments/AdaptiveGA \
+  --n_runs 10
+```
+
+#### （2）不同算法边频率稳定性对比 ⭐⭐⭐
+
+```bash
+python analysis/compare_edge_frequency_multi_ga.py \
+  --tsp data/ch130.tsp \
+  --results \
+    results/experiments/ClassicGA \
+    results/experiments/ClassicGA_SUS \
+    results/experiments/SemiAdaptiveGA \
+    results/experiments/AdaptiveGA \
+  --labels \
+    "Classic GA" \
+    "Classic GA + SUS" \
+    "Semi-Adaptive GA" \
+    "Adaptive GA" \
+  --n_runs 10
+```
+
+📌 该图直观反映：
+
+* 路径结构是否稳定
+* 算法是否能识别关键边
+
+---
+
+## 📌 实验结论摘要（示例）
+
+* 自适应遗传算法在 **收敛速度与最终解质量** 上整体优于经典 GA
+* SUS 选择策略在一定程度上改善了多样性，但不足以替代自适应机制
+* 自适应 GA 在多次运行中表现出 **更高的路径结构稳定性**
+* 边频率分析表明，自适应机制有助于稳定保留 TSP 的关键连接关系
+
+---
+
+## 🔧 可扩展方向
+
+* 更大规模 TSP（pcb442 / pr1002）
+* 与 ACO / SA 等算法对比
+* 自适应算子学习（RL-based operator selection）
+* 并行 GA / 多种群 GA
+
+---
+
+## 📜 License
+
+MIT License
+

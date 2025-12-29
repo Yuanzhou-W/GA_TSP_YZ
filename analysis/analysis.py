@@ -2,150 +2,147 @@
 
 import json
 import os
-import numpy as np
-import pandas as pd
+from collections import defaultdict
+
 import matplotlib.pyplot as plt
+import numpy as np
 
 
-RESULT_FILE = "../results/run_log.json"
-FIG_DIR = "../results/figures"
+RESULT_ROOT = "results/experiments"
+FIGURE_DIR = "analysis/results/figures"
+
+os.makedirs(FIGURE_DIR, exist_ok=True)
 
 
-def ensure_dir(path):
-    if not os.path.exists(path):
-        os.makedirs(path)
+# --------------------------------------------------
+# Data Loading
+# --------------------------------------------------
+
+def load_all_results():
+    """
+    Load all GA experiment results.
+    Returns:
+        data[strategy] = list of run_logs
+    """
+    data = defaultdict(list)
+
+    for strategy_name in os.listdir(RESULT_ROOT):
+        strategy_dir = os.path.join(RESULT_ROOT, strategy_name)
+        if not os.path.isdir(strategy_dir):
+            continue
+
+        for fname in os.listdir(strategy_dir):
+            if not fname.endswith(".json"):
+                continue
+
+            with open(os.path.join(strategy_dir, fname), "r", encoding="utf-8") as f:
+                log = json.load(f)
+                data[strategy_name].append(log)
+
+    return data
 
 
-def load_logs(path):
-    with open(path, "r") as f:
-        logs = json.load(f)
-    return logs
+# --------------------------------------------------
+# Plot 1: Convergence curves
+# --------------------------------------------------
 
+def plot_convergence(data):
+    plt.figure(figsize=(8, 6))
 
-def extract_fitness_df(logs):
-    df = pd.DataFrame(logs["fitness"])
-    df["generation"] = df.index
-    return df
+    for strategy, runs in data.items():
+        # Average best length over runs
+        all_curves = []
 
+        for log in runs:
+            best_lengths = [
+                1.0 / g["metrics"]["best_fitness"]
+                for g in log["generations"]
+            ]
+            all_curves.append(best_lengths)
 
-def extract_diversity_df(logs):
-    df = pd.DataFrame(logs["diversity"])
-    return df
+        min_len = min(len(c) for c in all_curves)
+        curves = np.array([c[:min_len] for c in all_curves])
+        mean_curve = curves.mean(axis=0)
 
+        plt.plot(mean_curve, label=strategy)
 
-def extract_parameter_df(logs):
-    df = pd.DataFrame(logs["parameters"])
-    return df
-
-
-def extract_selection_df(logs):
-    df = pd.DataFrame(logs["selection"])
-    return df
-
-
-# -------------------------------------------------
-# Plot functions
-# -------------------------------------------------
-
-def plot_fitness_curve(df):
-    plt.figure()
-    plt.plot(df["generation"], df["best_fitness"], label="Best Fitness")
-    plt.plot(df["generation"], df["mean_fitness"], label="Mean Fitness")
     plt.xlabel("Generation")
-    plt.ylabel("Fitness")
-    plt.title("Fitness Convergence")
+    plt.ylabel("Best Tour Length")
+    plt.title("GA Convergence Comparison (cn130)")
     plt.legend()
     plt.grid(True)
-    plt.savefig(os.path.join(FIG_DIR, "fitness_convergence.png"), dpi=300)
-    plt.close()
+
+    path = os.path.join(FIGURE_DIR, "fitness_convergence.png")
+    plt.savefig(path, dpi=300, bbox_inches="tight")
+    plt.show()
+    print(f"[Saved] {path}")
 
 
-def plot_fitness_std(df):
-    plt.figure()
-    plt.plot(df["generation"], df["fitness_std"])
-    plt.xlabel("Generation")
-    plt.ylabel("Fitness Std")
-    plt.title("Fitness Standard Deviation")
-    plt.grid(True)
-    plt.savefig(os.path.join(FIG_DIR, "fitness_std.png"), dpi=300)
-    plt.close()
+# --------------------------------------------------
+# Plot 2: Stability (boxplot)
+# --------------------------------------------------
 
+def plot_stability(data):
+    labels = []
+    values = []
 
-def plot_diversity(df):
-    plt.figure()
-    plt.plot(df["generation"], df["diversity"])
-    plt.xlabel("Generation")
-    plt.ylabel("Diversity")
-    plt.title("Population Diversity")
-    plt.grid(True)
-    plt.savefig(os.path.join(FIG_DIR, "diversity.png"), dpi=300)
-    plt.close()
+    for strategy, runs in data.items():
+        final_lengths = [
+            log["summary"]["best_length"] for log in runs
+        ]
+        labels.append(strategy)
+        values.append(final_lengths)
 
-
-def plot_parameters(df):
-    plt.figure()
-    plt.plot(df["generation"], df["pc"], label="Pc")
-    plt.plot(df["generation"], df["pm"], label="Pm")
-    plt.xlabel("Generation")
-    plt.ylabel("Probability")
-    plt.title("Adaptive Parameters")
-    plt.legend()
-    plt.grid(True)
-    plt.savefig(os.path.join(FIG_DIR, "adaptive_parameters.png"), dpi=300)
-    plt.close()
-
-
-def plot_selection_usage(df):
-    counts = df["method"].value_counts()
-
-    plt.figure()
-    plt.bar(counts.index, counts.values)
-    plt.xlabel("Selection Method")
-    plt.ylabel("Usage Count")
-    plt.title("Selection Method Usage")
+    plt.figure(figsize=(8, 6))
+    plt.boxplot(values, labels=labels, showmeans=True)
+    plt.ylabel("Best Tour Length")
+    plt.title("GA Stability Comparison (Final Solution)")
     plt.grid(axis="y")
-    plt.savefig(os.path.join(FIG_DIR, "selection_usage.png"), dpi=300)
-    plt.close()
+
+    path = os.path.join(FIGURE_DIR, "stability_boxplot.png")
+    plt.savefig(path, dpi=300, bbox_inches="tight")
+    plt.show()
+    print(f"[Saved] {path}")
 
 
-def plot_selection_over_time(df):
-    df_time = df[["generation", "method"]].copy()
-    df_time["sus"] = (df_time["method"] == "sus").astype(int)
+# --------------------------------------------------
+# Plot 3: Runtime comparison
+# --------------------------------------------------
 
-    sus_ratio = df_time.groupby("generation")["sus"].mean()
+def plot_runtime(data):
+    strategies = []
+    runtimes = []
 
-    plt.figure()
-    plt.plot(sus_ratio.index, sus_ratio.values)
-    plt.xlabel("Generation")
-    plt.ylabel("SUS Ratio")
-    plt.title("SUS Usage Over Time")
-    plt.grid(True)
-    plt.savefig(os.path.join(FIG_DIR, "sus_ratio_over_time.png"), dpi=300)
-    plt.close()
+    for strategy, runs in data.items():
+        times = [log["summary"]["runtime_sec"] for log in runs]
+        strategies.append(strategy)
+        runtimes.append(np.mean(times))
+
+    plt.figure(figsize=(8, 6))
+    plt.bar(strategies, runtimes)
+    plt.ylabel("Runtime (seconds)")
+    plt.title("GA Runtime Comparison")
+    plt.grid(axis="y")
+
+    path = os.path.join(FIGURE_DIR, "runtime_comparison.png")
+    plt.savefig(path, dpi=300, bbox_inches="tight")
+    plt.show()
+    print(f"[Saved] {path}")
 
 
-# -------------------------------------------------
+# --------------------------------------------------
 # Main
-# -------------------------------------------------
+# --------------------------------------------------
 
 def main():
-    ensure_dir(FIG_DIR)
+    data = load_all_results()
 
-    logs = load_logs(RESULT_FILE)
+    if not data:
+        raise RuntimeError("No experiment results found.")
 
-    fitness_df = extract_fitness_df(logs)
-    diversity_df = extract_diversity_df(logs)
-    param_df = extract_parameter_df(logs)
-    selection_df = extract_selection_df(logs)
-
-    plot_fitness_curve(fitness_df)
-    plot_fitness_std(fitness_df)
-    plot_diversity(diversity_df)
-    plot_parameters(param_df)
-    plot_selection_usage(selection_df)
-    plot_selection_over_time(selection_df)
-
-    print("[INFO] Analysis complete. Figures saved to results/figures/")
+    plot_convergence(data)
+    plot_stability(data)
+    plot_runtime(data)
 
 
 if __name__ == "__main__":

@@ -4,20 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f684aac7-6f16-41ae-a7de-aa7acc4a0ce4" name="更改" comment="a try">
-      <change afterPath="$PROJECT_DIR$/data/ch130.tsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ga/adaptive.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ga/crossover.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ga/engine.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ga/metrics.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ga/mutation.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ga/selection.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run_experiment.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/tsp_loader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="f684aac7-6f16-41ae-a7de-aa7acc4a0ce4" name="更改" comment="a version">
+      <change afterPath="$PROJECT_DIR$/.idea/GA_TSP_YZ.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/analysis/path_stability_overlay.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/analysis/plot_tsp_route.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/analysis/show_route_and_convergence.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ga/strategies/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ga/strategies/base.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ga/strategies/classic.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ga/strategies/classic_sus.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ga/strategies/semi_adaptive.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ga/adaptive.py" beforeDir="false" afterPath="$PROJECT_DIR$/ga/strategies/adaptive.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ga/crossover.py" beforeDir="false" afterPath="$PROJECT_DIR$/ga/operators/crossover.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ga/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/ga/engine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ga/metrics.py" beforeDir="false" afterPath="$PROJECT_DIR$/ga/operators/metrics.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ga/mutation.py" beforeDir="false" afterPath="$PROJECT_DIR$/ga/operators/mutation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ga/selection.py" beforeDir="false" afterPath="$PROJECT_DIR$/ga/operators/selection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/run_experiment.py" beforeDir="false" afterPath="$PROJECT_DIR$/experiment/run_experiment.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,24 +41,24 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Yuanzhou-W"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Yuanzhou-W&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubDefaultAccount">
     <option name="defaultAccountId" value="8997c9ce-2b63-4f30-8058-ec1af5bbd782" />
   </component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Yuanzhou-W/GA_TSP_YZ.git",
-    "accountId": "8997c9ce-2b63-4f30-8058-ec1af5bbd782"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Yuanzhou-W/GA_TSP_YZ.git&quot;,
+    &quot;accountId&quot;: &quot;8997c9ce-2b63-4f30-8058-ec1af5bbd782&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 7
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="37T1ocWHwWjicQyZQf7zvwlbJYf" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -60,34 +67,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.download.executor": "Run",
-    "Python.run_experiment.executor": "Run",
-    "Python.tsp_loader.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/obisidian_dataset/UCAS_BIG2528/UCAS_course/演化计算/GA_TSP_YZ/GA_TSP_YZ",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.analysis.executor&quot;: &quot;Run&quot;,
+    &quot;Python.download.executor&quot;: &quot;Run&quot;,
+    &quot;Python.run_experiment.executor&quot;: &quot;Run&quot;,
+    &quot;Python.tsp_loader.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/obisidian_dataset/UCAS_BIG2528/UCAS_course/演化计算/GA_TSP_YZ/GA_TSP_YZ&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\obisidian_dataset\UCAS_BIG2528\UCAS_course\演化计算\GA_TSP_YZ\GA_TSP_YZ\ga\strategies" />
+      <recent name="D:\obisidian_dataset\UCAS_BIG2528\UCAS_course\演化计算\GA_TSP_YZ\GA_TSP_YZ\ga\operators" />
+      <recent name="D:\obisidian_dataset\UCAS_BIG2528\UCAS_course\演化计算\GA_TSP_YZ\GA_TSP_YZ\experiment" />
+      <recent name="D:\obisidian_dataset\UCAS_BIG2528\UCAS_course\演化计算\GA_TSP_YZ\GA_TSP_YZ\analysis" />
       <recent name="D:\obisidian_dataset\UCAS_BIG2528\UCAS_course\演化计算\GA_TSP_YZ\GA_TSP_YZ" />
-      <recent name="D:\obisidian_dataset\UCAS_BIG2528\UCAS_course\演化计算\GA_TSP_YZ\GA_TSP_YZ\data" />
-      <recent name="D:\obisidian_dataset\UCAS_BIG2528\UCAS_course\演化计算\GA_TSP_YZ\GA_TSP_YZ\experiment\data" />
-      <recent name="D:\obisidian_dataset\UCAS_BIG2528\UCAS_course\演化计算\GA_TSP_YZ\GA_TSP_YZ\utils" />
-      <recent name="D:\obisidian_dataset\UCAS_BIG2528\UCAS_course\演化计算\GA_TSP_YZ\GA_TSP_YZ\script" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -105,7 +113,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1766912423819</updated>
-      <workItem from="1766912425080" duration="3275000" />
+      <workItem from="1766912425080" duration="3552000" />
+      <workItem from="1766991220393" duration="7779000" />
     </task>
     <task id="LOCAL-00001" summary="a try">
       <option name="closed" value="true" />
@@ -131,7 +140,15 @@
       <option name="project" value="LOCAL" />
       <updated>1766913232938</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="a version">
+      <option name="closed" value="true" />
+      <created>1766916580001</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1766916580001</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -139,11 +156,13 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="a try" />
-    <option name="LAST_COMMIT_MESSAGE" value="a try" />
+    <MESSAGE value="a version" />
+    <option name="LAST_COMMIT_MESSAGE" value="a version" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/GA_TSP_YZ$tsp_loader.coverage" NAME="tsp_loader 覆盖结果" MODIFIED="1766915927885" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
     <SUITE FILE_PATH="coverage/GA_TSP_YZ$download.coverage" NAME="download 覆盖结果" MODIFIED="1766914204252" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data" />
-    <SUITE FILE_PATH="coverage/GA_TSP_YZ$run_experiment.coverage" NAME="run_experiment 覆盖结果" MODIFIED="1766916295564" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/GA_TSP_YZ$run_experiment.coverage" NAME="run_experiment 覆盖结果" MODIFIED="1766999255219" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/experiment" />
+    <SUITE FILE_PATH="coverage/GA_TSP_YZ$analysis.coverage" NAME="analysis 覆盖结果" MODIFIED="1766916538047" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/analysis" />
   </component>
 </project>

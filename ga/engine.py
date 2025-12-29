@@ -1,96 +1,199 @@
+# ga/engine.py
+
+import time
 import numpy as np
-from ga.selection import select
-from ga.crossover import crossover
-from ga.mutation import mutate
-from ga.adaptive import AdaptiveController
-from ga.metrics import compute_fitness, compute_diversity
 
 
-class GeneticAlgorithm:
-    def __init__(self, config, tsp):
-        self.config = config
-        self.tsp = tsp
+class GAEngine:
+    """
+    Strategy-driven Genetic Algorithm Engine.
 
-        self.pop_size = config["population_size"]
-        self.max_generations = config["max_generations"]
+    Compatible with:
+    - tsp / distance_matrix
+    - population_size / pop_size
+    - generations / max_generations
+    - elite_size
+    - run(verbose=...)
+    """
 
-        self.selection_method = None
-        self.crossover_method = config["crossover_method"]
-        self.mutation_method = config["mutation_method"]
+    def __init__(
+        self,
+        tsp=None,
+        distance_matrix=None,
+        strategy=None,
+        population_size=None,
+        pop_size=None,
+        generations=None,
+        max_generations=None,
+        elite_size=None,
+        seed=None,
+        verbose=True,
+    ):
+        # --------------------------------------------------
+        # Basic checks
+        # --------------------------------------------------
+        if tsp is None and distance_matrix is None:
+            raise ValueError(
+                "GAEngine requires either tsp or distance_matrix."
+            )
 
-        self.adaptive = AdaptiveController(config["adaptive"])
+        if strategy is None:
+            raise ValueError("GAEngine requires a strategy.")
 
+        # --------------------------------------------------
+        # TSP / distance matrix compatibility
+        # --------------------------------------------------
+        if tsp is not None:
+            self.distance_matrix = np.asarray(tsp.distance_matrix)
+            self.n_cities = tsp.num_cities
+            self.tsp_name = tsp.name
+        else:
+            self.distance_matrix = np.asarray(distance_matrix)
+            self.n_cities = self.distance_matrix.shape[0]
+            self.tsp_name = "Unknown-TSP"
+
+        # --------------------------------------------------
+        # Population size compatibility
+        # --------------------------------------------------
+        if population_size is None and pop_size is None:
+            self.population_size = 100
+        elif population_size is None:
+            self.population_size = pop_size
+        else:
+            self.population_size = population_size
+
+        # --------------------------------------------------
+        # Generation compatibility
+        # --------------------------------------------------
+        if generations is None and max_generations is None:
+            self.generations = 500
+        elif generations is None:
+            self.generations = max_generations
+        else:
+            self.generations = generations
+
+        # --------------------------------------------------
+        # Elitism (record only)
+        # --------------------------------------------------
+        self.elite_size = elite_size
+
+        self.strategy = strategy
+        self.verbose = verbose
+
+        if seed is not None:
+            np.random.seed(seed)
+
+        # --------------------------------------------------
+        # Initialization
+        # --------------------------------------------------
+        self.population = self._init_population()
+        self.best_individual = None
+        self.best_length = np.inf
+
+        # --------------------------------------------------
+        # Unified logs
+        # --------------------------------------------------
         self.logs = {
-            "fitness": [],
-            "diversity": [],
-            "parameters": [],
-            "selection": [],
-            "crossover": [],
-            "mutation": []
+            "meta": {
+                "tsp": self.tsp_name,
+                "n_cities": self.n_cities,
+                "strategy": strategy.name,
+                "population_size": self.population_size,
+                "generations": self.generations,
+                "elite_size": self.elite_size,
+            },
+            "history": {
+                "best_length": [],
+                "mean_length": [],
+                "fitness_std": [],
+                "diversity": [],
+                "pc": [],
+                "pm": [],
+                "selection": [],
+            },
         }
 
-        self.population = self._init_population()
+    # --------------------------------------------------
+    # Population initialization
+    # --------------------------------------------------
 
     def _init_population(self):
-        n = self.tsp.num_cities
-        return np.array([np.random.permutation(n) for _ in range(self.pop_size)])
+        population = []
+        for _ in range(self.population_size):
+            individual = np.random.permutation(self.n_cities)
+            population.append(individual)
+        return np.array(population)
 
-    def step(self, generation):
-        fitness = compute_fitness(self.population, self.tsp)
-        diversity = compute_diversity(self.population)
+    # --------------------------------------------------
+    # Main GA loop
+    # --------------------------------------------------
 
-        metrics = {
-            "best_fitness": float(np.max(fitness)),
-            "mean_fitness": float(np.mean(fitness)),
-            "fitness_std": float(np.std(fitness)),
-            "diversity": float(diversity)
-        }
+    def run(self, verbose=None):
+        """
+        Run GA process.
 
-        self.adaptive.update_history(metrics)
+        Parameters
+        ----------
+        verbose : bool or None
+            If provided, overrides self.verbose for this run.
+        """
+        if verbose is not None:
+            self.verbose = verbose
 
-        pc = self.adaptive.get_pc(metrics)
-        pm = self.adaptive.get_pm()
-        sel_method = self.adaptive.get_selection_method(metrics)
+        start_time = time.time()
 
-        self.logs["parameters"].append({
-            "generation": generation,
-            "pc": pc,
-            "pm": pm,
-            "selection_method": sel_method
-        })
+        for gen in range(self.generations):
 
-        idx, sel_stats = select(
-            fitness, self.pop_size, sel_method, generation
-        )
-        self.logs["selection"].append(sel_stats)
-
-        mating_pool = self.population[idx]
-        new_population = []
-
-        for i in range(0, self.pop_size, 2):
-            p1 = mating_pool[i]
-            p2 = mating_pool[(i + 1) % self.pop_size]
-
-            c1, c2, cross_stats = crossover(
-                p1, p2, pc, self.crossover_method, generation
+            # -------- Evaluation --------
+            fitness, lengths = self.strategy.evaluate(
+                self.population,
+                self.distance_matrix,
             )
-            self.logs["crossover"].append(cross_stats)
 
-            c1, m1 = mutate(c1, pm, self.mutation_method, generation)
-            c2, m2 = mutate(c2, pm, self.mutation_method, generation)
+            # -------- Best solution update --------
+            idx = np.argmin(lengths)
+            if lengths[idx] < self.best_length:
+                self.best_length = lengths[idx]
+                self.best_individual = self.population[idx].copy()
 
-            self.logs["mutation"].extend([m1, m2])
-            new_population.extend([c1, c2])
+            # -------- Record statistics --------
+            self._record(fitness, lengths)
 
-        self.population = np.array(new_population[:self.pop_size])
+            # -------- Evolution --------
+            self.population = self.strategy.evolve(
+                population=self.population,
+            )
 
-        self.logs["fitness"].append(metrics)
-        self.logs["diversity"].append({
-            "generation": generation,
-            "diversity": diversity
-        })
+            if self.verbose and (gen + 1) % 50 == 0:
+                print(
+                    f"[Gen {gen + 1:4d}] "
+                    f"Best length = {self.best_length:.2f}"
+                )
 
-    def run(self):
-        for gen in range(self.max_generations):
-            self.step(gen)
-        return self.population, self.logs
+        # -------- Final logs --------
+        self.logs["best_individual"] = self.best_individual.tolist()
+        self.logs["best_length"] = self.best_length
+        self.logs["runtime"] = time.time() - start_time
+
+        return self.best_individual, self.logs
+
+    # --------------------------------------------------
+    # Logging
+    # --------------------------------------------------
+
+    def _record(self, fitness, lengths):
+        history = self.logs["history"]
+
+        history["best_length"].append(np.min(lengths))
+        history["mean_length"].append(np.mean(lengths))
+        history["fitness_std"].append(np.std(fitness))
+
+        history["diversity"].append(
+            self.strategy.compute_diversity(self.population)
+        )
+
+        history["pc"].append(float(self.strategy.pc))
+        history["pm"].append(float(self.strategy.pm))
+        history["selection"].append(
+            self.strategy.last_selection_method
+        )
