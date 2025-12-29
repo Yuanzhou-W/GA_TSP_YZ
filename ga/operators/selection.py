@@ -8,16 +8,6 @@ import numpy as np
 # --------------------------------------------------
 
 def roulette_wheel_selection(fitness, num_selected):
-    """
-    Roulette Wheel Selection based on fitness.
-
-    Parameters
-    ----------
-    fitness : np.ndarray
-        Fitness values (higher is better)
-    num_selected : int
-        Number of individuals to select
-    """
     fitness = np.asarray(fitness)
 
     # 防止负值 / 全零
@@ -25,10 +15,9 @@ def roulette_wheel_selection(fitness, num_selected):
     probs = fitness / fitness.sum()
 
     cum_probs = np.cumsum(probs)
-
     r = np.random.rand(num_selected)
-    indices = np.searchsorted(cum_probs, r)
 
+    indices = np.searchsorted(cum_probs, r)
     return indices
 
 
@@ -37,9 +26,6 @@ def roulette_wheel_selection(fitness, num_selected):
 # --------------------------------------------------
 
 def stochastic_universal_sampling(fitness, num_selected):
-    """
-    Stochastic Universal Sampling (SUS)
-    """
     fitness = np.asarray(fitness)
 
     fitness = fitness - fitness.min() + 1e-12
@@ -52,7 +38,6 @@ def stochastic_universal_sampling(fitness, num_selected):
     pointers = start + step * np.arange(num_selected)
 
     indices = np.searchsorted(cum_probs, pointers)
-
     return indices
 
 
@@ -60,29 +45,24 @@ def stochastic_universal_sampling(fitness, num_selected):
 # Selection Dispatcher
 # --------------------------------------------------
 
-def select(population, fitness, method="roulette", num_selected=None):
+def select(fitness, method="roulette", num_selected=None):
     """
-    Selection interface.
+    Selection interface (RETURN INDICES ONLY)
 
     Parameters
     ----------
-    population : np.ndarray
     fitness : np.ndarray
     method : str
         'roulette' or 'sus'
-    num_selected : int or None
-        Number of individuals to select
+    num_selected : int
     """
-    pop_size = len(population)
-
+    pop_size = len(fitness)
     if num_selected is None:
         num_selected = pop_size
 
     if method == "roulette":
-        indices = roulette_wheel_selection(fitness, num_selected)
+        return roulette_wheel_selection(fitness, num_selected)
     elif method == "sus":
-        indices = stochastic_universal_sampling(fitness, num_selected)
+        return stochastic_universal_sampling(fitness, num_selected)
     else:
         raise ValueError(f"Unknown selection method: {method}")
-
-    return population[indices]

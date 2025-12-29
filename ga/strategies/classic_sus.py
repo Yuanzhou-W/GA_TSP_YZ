@@ -83,7 +83,6 @@ class ClassicSUSGAStrategy(GAStrategy):
                 c1, c2 = crossover(
                     p1,
                     p2,
-                    pc=1.0,
                     method=self.crossover_method,
                 )
             else:

@@ -24,10 +24,10 @@ class SemiAdaptiveGAStrategy(GAStrategy):
     def __init__(self, config):
         super().__init__(config)
 
-        # ---- selection fixed ----
+        # ---- fixed selection ----
         self.selection_method = config.get("selection_method", "roulette")
 
-        # ---- pc / pm config compatibility ----
+        # ---- pc / pm config ----
         pc_cfg = config.get("pc", 0.9)
         pm_cfg = config.get("pm", 0.02)
 
@@ -35,21 +35,27 @@ class SemiAdaptiveGAStrategy(GAStrategy):
             self.pc_min = pc_cfg["min"]
             self.pc_max = pc_cfg["max"]
         else:
-            self.pc_min = self.pc_max = pc_cfg
+            self.pc_min = self.pc_max = float(pc_cfg)
 
         if isinstance(pm_cfg, dict):
             self.pm_min = pm_cfg["min"]
             self.pm_max = pm_cfg["max"]
         else:
-            self.pm_min = self.pm_max = pm_cfg
+            self.pm_min = self.pm_max = float(pm_cfg)
 
         self.crossover_method = config.get("crossover_method", "ox")
         self.mutation_method = config.get("mutation_method", "swap")
 
-        # init
+        # ---- adaptive state ----
         self.pc = self.pc_max
         self.pm = self.pm_min
         self.last_diversity = None
+
+        # ---- generation control (关键修复点) ----
+        self.current_generation = 0
+        self.max_generations = config.get("max_generations", 500)
+
+        self.last_selection_method = self.selection_method
 
     # --------------------------------------------------
     def evaluate(self, population, distance_matrix):
@@ -79,24 +85,29 @@ class SemiAdaptiveGAStrategy(GAStrategy):
     def evolve(self, population, distance_matrix, elite_size):
         pop_size = len(population)
 
+        # ---- generation bookkeeping ----
+        gen = self.current_generation
+        max_gen = self.max_generations
+
         fitness, lengths = self.evaluate(population, distance_matrix)
         diversity = self.compute_diversity(population)
 
-        self.update_parameters(
-            diversity,
-            self.generation,
-            self.max_generations,
-        )
+        self.update_parameters(diversity, gen, max_gen)
 
+        # ---- selection (indices) ----
         parents = select(
             fitness,
             num_selected=pop_size,
             method=self.selection_method,
         )
+        self.last_selection_method = self.selection_method
 
+        # ---- elitism ----
+        elite_size = elite_size or 0
         elite_idx = np.argsort(lengths)[:elite_size]
         new_population = [population[i].copy() for i in elite_idx]
 
+        # ---- offspring ----
         i = 0
         while len(new_population) < pop_size:
             p1 = population[parents[i % pop_size]]
@@ -107,7 +118,6 @@ class SemiAdaptiveGAStrategy(GAStrategy):
                 c1, c2 = crossover(
                     p1,
                     p2,
-                    pc=1.0,
                     method=self.crossover_method,
                 )
             else:
@@ -120,7 +130,10 @@ class SemiAdaptiveGAStrategy(GAStrategy):
             if len(new_population) < pop_size:
                 new_population.append(c2)
 
-        return new_population
+        # ---- advance generation ----
+        self.current_generation += 1
+
+        return np.array(new_population)
 
     # --------------------------------------------------
     def record(self):

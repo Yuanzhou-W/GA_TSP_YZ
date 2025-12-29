@@ -162,6 +162,8 @@ class GAEngine:
             # -------- Evolution --------
             self.population = self.strategy.evolve(
                 population=self.population,
+                distance_matrix=self.distance_matrix,
+                elite_size=self.elite_size,
             )
 
             if self.verbose and (gen + 1) % 50 == 0:
