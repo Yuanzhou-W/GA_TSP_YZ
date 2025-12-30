@@ -128,7 +128,7 @@ def main():
     tsp = load_tsp(args.tsp)
     coords = np.asarray(tsp.coords)
 
-    n_algo = len(args.results)
+    n_algo = len(args.experiment_results)
     ncols = 2
     nrows = (n_algo + 1) // 2
 
@@ -138,7 +138,7 @@ def main():
     )
     axes = axes.flatten()
 
-    for i, result_dir in enumerate(args.results):
+    for i, result_dir in enumerate(args.experiment_results):
         edge_count, n_runs, strategy_name = load_edge_frequency(
             result_dir, args.n_runs
         )

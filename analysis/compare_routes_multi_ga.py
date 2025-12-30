@@ -51,7 +51,7 @@ def main():
     plt.figure(figsize=(8, 8))
     plt.scatter(coords[:, 0], coords[:, 1], s=12, c="black")
 
-    for idx, path in enumerate(args.results):
+    for idx, path in enumerate(args.experiment_results):
         with open(path, "r", encoding="utf-8") as f:
             log = json.load(f)
 

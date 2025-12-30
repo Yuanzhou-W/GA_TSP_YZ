@@ -4,15 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f684aac7-6f16-41ae-a7de-aa7acc4a0ce4" name="更改" comment="gemini终于调好了">
-      <change afterPath="$PROJECT_DIR$/analysis/compare_edge_frequency_multi_ga.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/analysis/compare_routes_multi_ga.py" afterDir="false" />
+    <list default="true" id="f684aac7-6f16-41ae-a7de-aa7acc4a0ce4" name="更改" comment="调一下输出路径">
+      <change beforePath="$PROJECT_DIR$/.idea/GA_TSP_YZ.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/GA_TSP_YZ.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis/analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/compare_edge_frequency_multi_ga.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/compare_edge_frequency_multi_ga.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/analysis/path_stability_overlay.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/path_stability_overlay.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis/plot_tsp_route.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/plot_tsp_route.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis/show_route_and_convergence.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/show_route_and_convergence.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/experiment/run_experiment.py" beforeDir="false" afterPath="$PROJECT_DIR$/experiment/run_experiment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ga/strategies/semi_adaptive.py" beforeDir="false" afterPath="$PROJECT_DIR$/ga/strategies/semi_adaptive.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,41 +52,41 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.analysis.executor": "Run",
-    "Python.download.executor": "Run",
-    "Python.engine.executor": "Run",
-    "Python.python analysis/compare_routes_multi_ga.py \\.executor": "Run",
-    "Python.python analysis/show_route_and_convergence.py \\.executor": "Run",
-    "Python.run_experiment.executor": "Run",
-    "Python.tsp_loader.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/obisidian_dataset/UCAS_BIG2528/UCAS_course/演化计算/GA_TSP_YZ/GA_TSP_YZ",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.analysis.executor&quot;: &quot;Run&quot;,
+    &quot;Python.download.executor&quot;: &quot;Run&quot;,
+    &quot;Python.engine.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python analysis/compare_routes_multi_ga.py \\.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python analysis/show_route_and_convergence.py \\.executor&quot;: &quot;Run&quot;,
+    &quot;Python.run_experiment.executor&quot;: &quot;Run&quot;,
+    &quot;Python.tsp_loader.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/obisidian_dataset/UCAS_BIG2528/UCAS_course/演化计算/GA_TSP_YZ/GA_TSP_YZ&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\obisidian_dataset\UCAS_BIG2528\UCAS_course\演化计算\GA_TSP_YZ\GA_TSP_YZ\analysis\results" />
+      <recent name="D:\obisidian_dataset\UCAS_BIG2528\UCAS_course\演化计算\GA_TSP_YZ\GA_TSP_YZ\analysis\results_II" />
       <recent name="D:\obisidian_dataset\UCAS_BIG2528\UCAS_course\演化计算\GA_TSP_YZ\GA_TSP_YZ\ga\strategies" />
       <recent name="D:\obisidian_dataset\UCAS_BIG2528\UCAS_course\演化计算\GA_TSP_YZ\GA_TSP_YZ\ga\operators" />
       <recent name="D:\obisidian_dataset\UCAS_BIG2528\UCAS_course\演化计算\GA_TSP_YZ\GA_TSP_YZ\experiment" />
-      <recent name="D:\obisidian_dataset\UCAS_BIG2528\UCAS_course\演化计算\GA_TSP_YZ\GA_TSP_YZ\analysis" />
-      <recent name="D:\obisidian_dataset\UCAS_BIG2528\UCAS_course\演化计算\GA_TSP_YZ\GA_TSP_YZ" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.python analysis/compare_routes_multi_ga.py \">
+  <component name="RunManager">
     <configuration name="python analysis/compare_routes_multi_ga.py \" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="GA_TSP_YZ" />
       <option name="ENV_FILES" value="" />
@@ -159,7 +156,8 @@
       <option name="presentableId" value="Default" />
       <updated>1766912423819</updated>
       <workItem from="1766912425080" duration="3552000" />
-      <workItem from="1766991220393" duration="16116000" />
+      <workItem from="1766991220393" duration="16701000" />
+      <workItem from="1767087548382" duration="8244000" />
     </task>
     <task id="LOCAL-00001" summary="a try">
       <option name="closed" value="true" />
@@ -209,7 +207,23 @@
       <option name="project" value="LOCAL" />
       <updated>1767002094464</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="gemini终于调好了">
+      <option name="closed" value="true" />
+      <created>1767014174545</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1767014174545</updated>
+    </task>
+    <task id="LOCAL-00008" summary="调一下输出路径">
+      <option name="closed" value="true" />
+      <created>1767014432195</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1767014432195</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -231,15 +245,16 @@
     <MESSAGE value="a version" />
     <MESSAGE value="在调接口" />
     <MESSAGE value="gemini终于调好了" />
-    <option name="LAST_COMMIT_MESSAGE" value="gemini终于调好了" />
+    <MESSAGE value="调一下输出路径" />
+    <option name="LAST_COMMIT_MESSAGE" value="调一下输出路径" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/GA_TSP_YZ$engine.coverage" NAME="engine 覆盖结果" MODIFIED="1767000576300" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ga" />
     <SUITE FILE_PATH="coverage/GA_TSP_YZ$python_analysis_show_route_and_convergence_py__.coverage" NAME="python analysis/show_route_and_convergence.py \ 覆盖结果" MODIFIED="1767005322340" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/GA_TSP_YZ$tsp_loader.coverage" NAME="tsp_loader 覆盖结果" MODIFIED="1766915927885" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
     <SUITE FILE_PATH="coverage/GA_TSP_YZ$download.coverage" NAME="download 覆盖结果" MODIFIED="1766914204252" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data" />
-    <SUITE FILE_PATH="coverage/GA_TSP_YZ$python_analysis_compare_routes_multi_ga_py__.coverage" NAME="python analysis/compare_routes_multi_ga.py \ 覆盖结果" MODIFIED="1767012917044" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/GA_TSP_YZ$run_experiment.coverage" NAME="run_experiment 覆盖结果" MODIFIED="1767011484388" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/experiment" />
-    <SUITE FILE_PATH="coverage/GA_TSP_YZ$analysis.coverage" NAME="analysis 覆盖结果" MODIFIED="1767011660732" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/analysis" />
+    <SUITE FILE_PATH="coverage/GA_TSP_YZ$python_analysis_compare_routes_multi_ga_py__.coverage" NAME="python analysis/compare_routes_multi_ga.py \ 覆盖结果" MODIFIED="1767106439099" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/GA_TSP_YZ$run_experiment.coverage" NAME="run_experiment 覆盖结果" MODIFIED="1767106891655" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/experiment" />
+    <SUITE FILE_PATH="coverage/GA_TSP_YZ$analysis.coverage" NAME="analysis 覆盖结果" MODIFIED="1767107060892" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/analysis" />
   </component>
 </project>

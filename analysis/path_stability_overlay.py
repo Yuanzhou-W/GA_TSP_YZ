@@ -46,7 +46,7 @@ def main():
     coords = np.asarray(tsp.coords)   # 🔧 fix
 
     files = sorted(
-        f for f in os.listdir(args.results)
+        f for f in os.listdir(args.experiment_results)
         if f.endswith(".json")
     )
     if args.n_runs:
@@ -56,7 +56,7 @@ def main():
     strategy_name = None
 
     for fname in files:
-        with open(os.path.join(args.results, fname), "r", encoding="utf-8") as f:
+        with open(os.path.join(args.experiment_results, fname), "r", encoding="utf-8") as f:
             log = json.load(f)
 
         if strategy_name is None:
