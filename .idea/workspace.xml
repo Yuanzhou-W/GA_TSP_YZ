@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f684aac7-6f16-41ae-a7de-aa7acc4a0ce4" name="更改" comment="调一下输出路径">
-      <change beforePath="$PROJECT_DIR$/.idea/GA_TSP_YZ.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/GA_TSP_YZ.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis/compare_edge_frequency_multi_ga.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/compare_edge_frequency_multi_ga.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis/path_stability_overlay.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/path_stability_overlay.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ga/strategies/semi_adaptive.py" beforeDir="false" afterPath="$PROJECT_DIR$/ga/strategies/semi_adaptive.py" afterDir="false" />
-    </list>
+    <list default="true" id="f684aac7-6f16-41ae-a7de-aa7acc4a0ce4" name="更改" comment="调一下输出路径" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -157,7 +151,7 @@
       <updated>1766912423819</updated>
       <workItem from="1766912425080" duration="3552000" />
       <workItem from="1766991220393" duration="16701000" />
-      <workItem from="1767087548382" duration="8244000" />
+      <workItem from="1767087548382" duration="8648000" />
     </task>
     <task id="LOCAL-00001" summary="a try">
       <option name="closed" value="true" />
@@ -223,7 +217,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767014432195</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="调一下输出路径">
+      <option name="closed" value="true" />
+      <created>1767108700254</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1767108700254</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
