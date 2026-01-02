@@ -22,43 +22,57 @@ class SemiAdaptiveGAStrategy(GAStrategy):
     name = "SemiAdaptiveGA"
 
     def __init__(self, config):
-        super().__init__(config)
+        super().__init__()
 
-        # ---- base pc / pm ----
-        self.pc_base = config.get("pc", 0.9)
-        self.pm_base = config.get("pm", 0.02)
+        # --------------------------------------------------
+        # base pc / pm (用于初始值)
+        # --------------------------------------------------
+        pc_cfg = config.get("pc", 0.9)
+        pm_cfg = config.get("pm", 0.02)
 
-        # ---- adaptive bounds ----
+        self.pc_base = (
+            pc_cfg["max"] if isinstance(pc_cfg, dict) else float(pc_cfg)
+        )
+        self.pm_base = (
+            pm_cfg["min"] if isinstance(pm_cfg, dict) else float(pm_cfg)
+        )
+
+        # --------------------------------------------------
+        # adaptive bounds（⚠️ 你刚才缺的就是这四个）
+        # --------------------------------------------------
         self.pc_min = 0.6
         self.pc_max = 0.95
         self.pm_min = 0.01
         self.pm_max = 0.3
 
+        # --------------------------------------------------
+        # current parameters
+        # --------------------------------------------------
         self.pc = self.pc_base
         self.pm = self.pm_base
 
-        self.selection_method = config.get(
-            "selection_method", "roulette"
-        )
+        # --------------------------------------------------
+        # operators
+        # --------------------------------------------------
+        self.selection_method = config.get("selection_method", "roulette")
         self.crossover_method = config.get("crossover_method", "ox")
         self.mutation_method = config.get("mutation_method", "swap")
 
         self.last_diversity = None
-
+        self.last_selection_method = self.selection_method
     # --------------------------------------------------
     def evaluate(self, population, distance_matrix):
         return evaluate_population(population, distance_matrix)
-
     # --------------------------------------------------
     def update_parameters(self, diversity):
         """
-        Core semi-adaptive rule:
-        - low diversity -> increase mutation
+        Semi-adaptive rule:
+        - low diversity  -> increase mutation
         - high diversity -> increase crossover
         """
         self.last_diversity = diversity
 
-        # diversity in [0, 1]
+        # diversity assumed in [0, 1]
         self.pc = self.pc_min + diversity * (self.pc_max - self.pc_min)
         self.pm = self.pm_max - diversity * (self.pm_max - self.pm_min)
 
@@ -80,6 +94,7 @@ class SemiAdaptiveGAStrategy(GAStrategy):
             num_selected=pop_size,
             method=self.selection_method,
         )
+        self.last_selection_method = self.selection_method
 
         # ---- Elitism ----
         elite_idx = np.argsort(lengths)[:elite_size]

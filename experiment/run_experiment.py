@@ -11,7 +11,6 @@ from ga.strategies.semi_adaptive import SemiAdaptiveGAStrategy
 from ga.strategies.adaptive import AdaptiveGAStrategy
 from utils.tsp_loader import load_tsp
 
-
 # --------------------------------------------------
 # Global experiment configuration
 # --------------------------------------------------
@@ -24,8 +23,7 @@ MAX_GENERATIONS = 500
 ELITE_SIZE = 1
 SEED = 42
 
-N_RUNS = 1   # 之后你可以改成 10 / 30
-
+N_RUNS = 10  # 可以改成 10 / 30
 
 # --------------------------------------------------
 # Strategy configurations
@@ -37,13 +35,11 @@ classic_config = {
 }
 
 adaptive_config = {
-    "pc_min": 0.6,
-    "pc_max": 0.95,
-    "pm_min": 0.01,
-    "pm_max": 0.2,
-    "stagnation_threshold": 30
+    "pc": {"min": 0.4, "max": 0.95},
+    "pm": {"min": 0.01, "max": 0.4},
+    "stagnation_threshold": 30,
+    "max_generations": MAX_GENERATIONS
 }
-
 
 # --------------------------------------------------
 # Utility
@@ -75,25 +71,29 @@ def main():
     tsp = load_tsp(TSP_PATH)
     distance_matrix = tsp.distance_matrix
 
-    strategies = [
-        ClassicGAStrategy(classic_config.copy()),
-        ClassicSUSGAStrategy(classic_config.copy()),
-        SemiAdaptiveGAStrategy({
+    # 每次 run 都新建 strategy
+    strategy_factories = [
+        ("ClassicGA", lambda: ClassicGAStrategy(classic_config.copy())),
+        ("ClassicGA_SUS", lambda: ClassicSUSGAStrategy(classic_config.copy())),
+        ("SemiAdaptiveGA", lambda: SemiAdaptiveGAStrategy({
             **adaptive_config,
             "selection_method": "roulette"
-        }),
-        AdaptiveGAStrategy(adaptive_config.copy())
+        })),
+        ("AdaptiveGA", lambda: AdaptiveGAStrategy(adaptive_config.copy())),
     ]
 
     ensure_dir(RESULT_ROOT)
 
-    for strategy in strategies:
+    for strategy_name, strategy_factory in strategy_factories:
         print("=" * 60)
-        print(f"Running strategy: {strategy.name}")
+        print(f"Running strategy: {strategy_name}")
         print("=" * 60)
 
         for run_id in range(1, N_RUNS + 1):
             print(f"[Run {run_id}/{N_RUNS}]")
+
+            # 🔑 每次 run 都创建全新实例
+            strategy = strategy_factory()
 
             engine = GAEngine(
                 distance_matrix=distance_matrix,
@@ -108,14 +108,14 @@ def main():
 
             # Attach metadata
             logs["meta"].update({
-                "strategy": strategy.name,
+                "strategy": strategy_name,
                 "run_id": run_id,
                 "timestamp": datetime.now().isoformat(),
                 "tsp": tsp.name,
                 "num_cities": tsp.num_cities
             })
 
-            save_run_log(strategy.name, run_id, logs)
+            save_run_log(strategy_name, run_id, logs)
 
 
 if __name__ == "__main__":
