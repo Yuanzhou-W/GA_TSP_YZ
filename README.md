@@ -1,219 +1,132 @@
-# 🧬 GA-TSP-cn130
 
-**A Comparative Study of Classical and Adaptive Genetic Algorithms on TSP**
+# GA_TSP_YZ
 
-> 本项目以 TSPLIB 中的 **cn130 Traveling Salesman Problem** 为测试算例，
-> 系统性对比了多种经典遗传算法与自适应遗传算法在 **收敛性能、稳定性与路径结构** 方面的差异。
+> 使用遗传算法求解 TSP 问题的python项目，包括经典 GA、Classic + SUS、Semi-Adaptive 与 Adaptive GA 四种策略。
 
 ---
 
-## ✨ 项目亮点（Why this project matters）
 
-* ✅ **四种 GA 的严格对照实验设计**
-* ✅ **自适应算子策略（Adaptive Operators）**
-* ✅ **多次运行下的路径结构稳定性分析**
-* ✅ **研究级可视化（收敛、路径、边频率）**
-* ✅ **工程化实现，可复现实验**
 
 ---
 
-## 🧪 算法对比设置
+## 算法说明
 
-本项目实现并对比了以下四种遗传算法：
+本项目实现了四种遗传算法策略：
 
-| 编号   | 算法名称             | 参数策略 | 选择策略     | 研究目的      |
-| ---- | ---------------- | ---- | -------- | --------- |
-| GA-1 | Classic GA       | 固定   | Roulette | 基线方法      |
-| GA-2 | Classic GA + SUS | 固定   | SUS      | 分析选择机制影响  |
-| GA-3 | Semi-Adaptive GA | 自适应  | 固定       | 分析参数自适应影响 |
-| GA-4 | Adaptive GA      | 自适应  | 自适应      | 综合改进方法    |
+| 算法 | 选择算子 | 交叉算子 | 变异算子 | 参数自适应 |
+|------|-----------|-----------|-----------|------------|
+| ClassicGA | Roulette Wheel | OX | Swap | 固定 Pc/Pm |
+| ClassicGA_SUS | Stochastic Universal Sampling (SUS) | OX | Swap | 固定 Pc/Pm |
+| SemiAdaptiveGA | Roulette / SUS 固定 | OX | Swap | Pc/Pm 基于多样性自适应 |
+| AdaptiveGA | 混合选择 (RWS + SUS) | OX | Swap | Pc/Pm 基于多样性+停滞自适应 |
 
 ---
 
-## 📁 项目结构
+### 遗传算法核心公式
 
-```text
-GA_TSP_YZ/
-│  main.py
-│  README.md
-│  requirements.txt
-│
-├─data/
-│   └─ ch130.tsp
-│
-├─experiment/
-│   └─ run_experiment.py          # 一键运行四种 GA
-│
-├─ga/
-│   ├─ engine.py                  # 通用 GA 引擎
-│   ├─ selection.py
-│   ├─ crossover.py
-│   ├─ mutation.py
-│   ├─ metrics.py
-│   └─ strategies/
-│       ├─ base.py
-│       ├─ classic.py
-│       ├─ classic_sus.py
-│       ├─ semi_adaptive.py
-│       └─ adaptive.py
-│
-├─analysis/
-│   ├─ analysis.py                # 多算法性能对比图
-│   ├─ show_route_and_convergence.py
-│   ├─ compare_routes_multi_ga.py
-│   ├─ path_stability_overlay.py
-│   └─ compare_edge_frequency_multi_ga.py
-│
-└─results/
-    └─ experiments/               # 实验自动输出
+#### 1️⃣ 种群多样性（Population Diversity）
+
+```la
+\[
+D(g) = \frac{1}{N(N-1)} \sum_{i=1}^{N} \sum_{j=1, j\neq i}^{N} d(X_i, X_j)
+\]
 ```
 
+
+其中 \(d(X_i, X_j)\) 可用边差异度或其他距离度量。
+
+#### 2️⃣ 停滞代数（Stagnation）
+
+\[
+s(g) =
+\begin{cases}
+0, & \text{if } L_{\min}(g) < L_{\min}(g-1) \\
+s(g-1) + 1, & \text{otherwise}
+\end{cases}
+\]
+
+归一化：
+
+\[
+\hat{s}(g) = \min\left( \frac{s(g)}{S}, 1 \right)
+\]
+
 ---
 
-## 🚀 快速开始（One-Command Run）
+#### 3️⃣ AdaptiveGA Pc / Pm 更新公式
 
-### 1️⃣ 安装依赖
+\[
+\begin{aligned}
+p_c^{(D)}(g) &= p_c^{\min} + D(g) \cdot (p_c^{\max} - p_c^{\min}) \\
+p_m^{(D)}(g) &= p_m^{\max} - D(g) \cdot (p_m^{\max} - p_m^{\min}) \\
+p_c(g) &= \mathrm{clip}\big(p_c^{(D)}(g)(1 - \alpha \hat{s}(g)),\, p_c^{\min},\, p_c^{\max} \big) \\
+p_m(g) &= \mathrm{clip}\big(p_m^{(D)}(g)(1 + \beta \hat{s}(g)),\, p_m^{\min},\, p_m^{\max} \big)
+\end{aligned}
+\]
+
+SUS 与 RWS 混合选择比例：
+
+\[
+r_{\text{SUS}}(g) = r_{\min} + \hat{s}(g) \cdot (r_{\max} - r_{\min})
+\]
+
+父代分配：
+
+\[
+\begin{aligned}
+N_{\text{SUS}}(g) &= \lfloor N \cdot r_{\text{SUS}}(g) \rfloor \\
+N_{\text{RWS}}(g) &= N - N_{\text{SUS}}(g)
+\end{aligned}
+\]
+
+---
+
+## 实验结果示例
+
+### 收敛曲线
+
+![ClassicGA 收敛](analysis/experiment_results/figures/ClassicGA_route_and_convergence.png)
+![ClassicGA_SUS 收敛](analysis/experiment_results/figures/ClassicGA_SUS_route_and_convergence.png)
+![SemiAdaptiveGA 收敛](analysis/experiment_results/figures/SemiAdaptiveGA_route_and_convergence.png)
+![AdaptiveGA 收敛](analysis/experiment_results/figures/AdaptiveGA_route_and_convergence.png)
+
+### 参数动态示意（AdaptiveGA / SemiAdaptiveGA）
+
+![AdaptiveGA 动态](experiment_results/figures/adaptive_dynamics.png)
+
+### 收敛稳定性与运行时间
+
+![稳定性 Boxplot](experiment_results/figures/stability_boxplot.png)
+![运行时间对比](experiment_results/figures/runtime_comparison.png)
+
+---
+
+## 使用说明
+
+1. 安装依赖：
 
 ```bash
 pip install -r requirements.txt
-```
+````
 
----
-
-### 2️⃣ 一键运行所有 GA 对比实验 ⭐（推荐）
+2. 运行实验：
 
 ```bash
 python experiment/run_experiment.py
 ```
 
-运行后将自动：
-
-* 在 **同一 cn130 实例** 上
-* 依次运行 **4 种遗传算法**
-* 保存完整实验日志到：
-
-```text
-results/experiments/
-├─ ClassicGA/
-├─ ClassicGA_SUS/
-├─ SemiAdaptiveGA/
-└─ AdaptiveGA/
-```
-
-```
-
-
-```
-
-
----
-
-## 📊 结果分析与可视化
-
-> 所有可视化脚本均 **只读结果文件，不重新跑 GA**
-
----
-
-### 🔹 1. 收敛曲线 & 稳定性对比
+3. 分析结果：
 
 ```bash
 python analysis/analysis.py
 ```
 
-生成图像：
+4. 所有生成图片存储在：
 
-* 收敛曲线对比（fitness_convergence）
-* 多次运行稳定性箱线图
-* 运行时间对比
-
----
-
-### 🔹 2. 单算法：路径 + 收敛联合展示
-
-```bash
-python analysis/show_route_and_convergence.py \
-  --tsp data/ch130.tsp \
-  --result experiment_results/experiments/AdaptiveGA/run_001.json
+```
+analysis/experiment_results/figures/
 ```
 
-📌 一张图同时展示：
-
-* 最优路径
-* 收敛过程
-
 ---
 
-### 🔹 3. 多算法最优路径同图对比（直观）
-
-```bash
-python analysis/compare_routes_multi_ga.py \
-  --tsp data/ch130.tsp \
-  --experiment_results \
-    experiment_results/experiments/ClassicGA/run_001.json \
-    experiment_results/experiments/ClassicGA_SUS/run_001.json \
-    experiment_results/experiments/SemiAdaptiveGA/run_001.json \
-    experiment_results/experiments/AdaptiveGA/run_001.json
-```
-
-📌 **非常适合答辩 / PPT 展示**
-
----
-
-### 🔹 4. 多次运行路径稳定性分析（高级）
-
-#### （1）路径叠加透明图
-
-```bash
-python analysis/path_stability_overlay.py \
-  --tsp data/ch130.tsp \
-  --experiment_results experiment_results/experiments/AdaptiveGA \
-  --n_runs 10
-```
-
-#### （2）不同算法边频率稳定性对比 ⭐⭐⭐
-
-```bash
-python analysis/compare_edge_frequency_multi_ga.py \
-  --tsp data/ch130.tsp \
-  --experiment_results \
-    experiment_results/experiments/ClassicGA \
-    experiment_results/experiments/ClassicGA_SUS \
-    experiment_results/experiments/SemiAdaptiveGA \
-    experiment_results/experiments/AdaptiveGA \
-  --labels \
-    "Classic GA" \
-    "Classic GA + SUS" \
-    "Semi-Adaptive GA" \
-    "Adaptive GA" \
-  --n_runs 10
-```
-
-📌 该图直观反映：
-
-* 路径结构是否稳定
-* 算法是否能识别关键边
-
----
-
-## 📌 实验结论摘要（示例）
-
-* 自适应遗传算法在 **收敛速度与最终解质量** 上整体优于经典 GA
-* SUS 选择策略在一定程度上改善了多样性，但不足以替代自适应机制
-* 自适应 GA 在多次运行中表现出 **更高的路径结构稳定性**
-* 边频率分析表明，自适应机制有助于稳定保留 TSP 的关键连接关系
-
----
-
-## 🔧 可扩展方向
-
-* 更大规模 TSP（pcb442 / pr1002）
-* 与 ACO / SA 等算法对比
-* 自适应算子学习（RL-based operator selection）
-* 并行 GA / 多种群 GA
-
----
-
-## 📜 License
-
-MIT License
 

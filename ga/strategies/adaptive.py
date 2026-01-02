@@ -14,9 +14,9 @@ from ga.operators.metrics import (
 
 class AdaptiveGAStrategy(GAStrategy):
     """
-    Fully Adaptive GA (Research-style):
-    - Diversity-driven Pc / Pm
-    - Annealing weighted by diversity
+    Fully Adaptive GA (Stagnation-driven):
+    - Pc / Pm adapted by diversity + stagnation
+    - No generation-ratio annealing
     - Hybrid selection (RWS + SUS)
     """
 
@@ -26,7 +26,7 @@ class AdaptiveGAStrategy(GAStrategy):
         super().__init__()
 
         # --------------------------------------------------
-        # pc / pm config
+        # pc / pm bounds
         # --------------------------------------------------
         pc_cfg = config.get("pc", 0.9)
         pm_cfg = config.get("pm", 0.02)
@@ -46,22 +46,26 @@ class AdaptiveGAStrategy(GAStrategy):
         # --------------------------------------------------
         # adaptive selection parameters
         # --------------------------------------------------
-        self.sus_ratio = 0.5
         self.sus_ratio_min = 0.1
         self.sus_ratio_max = 0.9
+        self.sus_ratio = self.sus_ratio_min
 
         self.crossover_method = config.get("crossover_method", "ox")
         self.mutation_method = config.get("mutation_method", "swap")
 
         # --------------------------------------------------
-        # adaptive state
+        # stagnation control
+        # --------------------------------------------------
+        self.stagnation_threshold = config.get("stagnation_threshold", 30)
+        self.stagnation_counter = 0
+        self.best_length = np.inf
+
+        # --------------------------------------------------
+        # current parameters
         # --------------------------------------------------
         self.pc = self.pc_max
         self.pm = self.pm_min
         self.last_diversity = None
-
-        self.current_generation = 0
-        self.max_generations = config.get("max_generations", 500)
 
     # --------------------------------------------------
     def evaluate(self, population, distance_matrix):
@@ -72,36 +76,45 @@ class AdaptiveGAStrategy(GAStrategy):
         return compute_population_diversity(population)
 
     # --------------------------------------------------
-    def update_parameters(self, diversity, gen, max_gen):
+    def update_stagnation(self, best_length):
         """
-        Research-style adaptive rule:
-        - Pc / Pm driven by diversity
-        - Annealing strength decays with diversity
+        Update stagnation counter based on fitness improvement
         """
+        if best_length < self.best_length:
+            self.best_length = best_length
+            self.stagnation_counter = 0
+        else:
+            self.stagnation_counter += 1
+
+    # --------------------------------------------------
+    def update_parameters(self, diversity):
+        """
+        Stagnation-driven adaptive rule
+        """
+
         self.last_diversity = diversity
 
-        # ---- base diversity-driven adaptation ----
-        pc_div = self.pc_min + (self.pc_max - self.pc_min) * diversity
-        pm_div = self.pm_max - (self.pm_max - self.pm_min) * diversity
+        # ---- base diversity adaptation ----
+        pc_div = self.pc_min + diversity * (self.pc_max - self.pc_min)
+        pm_div = self.pm_max - diversity * (self.pm_max - self.pm_min)
 
-        # ---- generation factor ----
-        t = gen / max_gen
+        # ---- stagnation factor (0 ~ 1) ----
+        s = min(
+            self.stagnation_counter / self.stagnation_threshold,
+            1.0
+        )
 
-        # 🔑 annealing weighted by diversity
-        anneal_strength = diversity
+        # ---- adaptive pc / pm ----
+        self.pc = pc_div * (1.0 - 0.5 * s)
+        self.pm = pm_div * (1.0 + 0.8 * s)
 
-        pc = pc_div * (1.0 - 0.4 * t * anneal_strength)
-        pm = pm_div * (1.0 + 0.4 * t * (1.0 - anneal_strength))
-
-        self.pc = float(np.clip(pc, self.pc_min, self.pc_max))
-        self.pm = float(np.clip(pm, self.pm_min, self.pm_max))
+        self.pc = float(np.clip(self.pc, self.pc_min, self.pc_max))
+        self.pm = float(np.clip(self.pm, self.pm_min, self.pm_max))
 
         # ---- adaptive selection mixing ----
-        self.sus_ratio = 1.0 - diversity
-        self.sus_ratio = np.clip(
-            self.sus_ratio,
-            self.sus_ratio_min,
-            self.sus_ratio_max,
+        # stagnation ↑ → SUS ↑
+        self.sus_ratio = self.sus_ratio_min + s * (
+            self.sus_ratio_max - self.sus_ratio_min
         )
 
     # --------------------------------------------------
@@ -132,20 +145,23 @@ class AdaptiveGAStrategy(GAStrategy):
                 )
             )
 
-        self.last_selection_method = f"mixed(sus_ratio={self.sus_ratio:.2f})"
+        self.last_selection_method = (
+            f"mixed(sus_ratio={self.sus_ratio:.2f})"
+        )
+
         return np.array(parents)
 
     # --------------------------------------------------
     def evolve(self, population, distance_matrix, elite_size):
         pop_size = len(population)
 
-        gen = self.current_generation
-        max_gen = self.max_generations
-
         fitness, lengths = self.evaluate(population, distance_matrix)
         diversity = self.compute_diversity(population)
 
-        self.update_parameters(diversity, gen, max_gen)
+        best_length = np.min(lengths)
+        self.update_stagnation(best_length)
+
+        self.update_parameters(diversity)
 
         parents = self.mixed_selection(fitness, pop_size)
 
@@ -174,7 +190,6 @@ class AdaptiveGAStrategy(GAStrategy):
             if len(new_population) < pop_size:
                 new_population.append(c2)
 
-        self.current_generation += 1
         return np.array(new_population)
 
     # --------------------------------------------------
@@ -184,4 +199,5 @@ class AdaptiveGAStrategy(GAStrategy):
             "pm": self.pm,
             "diversity": self.last_diversity,
             "sus_ratio": self.sus_ratio,
+            "stagnation": self.stagnation_counter,
         }
