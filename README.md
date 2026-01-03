@@ -4,6 +4,14 @@
 基于遗传算法（Genetic Algorithm, GA）的旅行商问题（TSP）求解实验项目。  
 项目实现并对比了四种 GA 策略，重点研究**参数自适应机制、混合选择策略与种群多样性演化**。
 
+
+This project implements a modular Genetic Algorithm (GA) framework for the Traveling Salesman Problem (TSP), with a focus on comparing different parameter control strategies. Based on a unified operator design (selection, crossover, and mutation), the framework includes classic GA, semi-adaptive GA, and fully adaptive GA variants.
+
+The adaptive strategies adjust crossover and mutation probabilities according to population diversity and search progress, while hybrid selection mechanisms are explored to balance selection pressure and population stability. Multiple runs on standard TSPLIB instances are conducted, and detailed logs and visual analyses are provided to examine convergence behavior, parameter dynamics, and solution stability.
+
+The primary goal of this project is to study the practical effects of adaptive mechanisms in genetic algorithms, rather than to propose a state-of-the-art solver. The results are intended to support understanding and discussion of GA design choices in an experimental and educational context.
+
+
 ---
 
 ## 项目结构
