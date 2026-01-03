@@ -180,11 +180,3 @@ python experiment/run_experiment.py
 ```bash
 python analysis/analysis.py
 ```
-
----
-
-## 说明
-
-* 所有实验结果以 JSON 形式保存在 `experiment_results/experiments/`
-
-```
