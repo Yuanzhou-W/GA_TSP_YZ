@@ -9,6 +9,8 @@ This project implements a modular Genetic Algorithm (GA) framework for the Trave
 The adaptive strategies adjust crossover and mutation probabilities according to population diversity and search progress, while hybrid selection mechanisms are explored to balance selection pressure and population stability. Multiple runs on standard TSPLIB instances are conducted, and detailed logs and visual analyses are provided to examine convergence behavior, parameter dynamics, and solution stability.
 
 The primary goal of this project is to study the practical effects of adaptive mechanisms in genetic algorithms, rather than to propose a state-of-the-art solver. The results are intended to support understanding and discussion of GA design choices in an experimental and educational context.
+
+
 ---
 
 
