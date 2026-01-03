@@ -3,6 +3,12 @@
 
 > 使用遗传算法求解 TSP 问题的python项目，包括经典 GA、Classic + SUS、Semi-Adaptive 与 Adaptive GA 四种策略。
 
+
+This project implements a modular Genetic Algorithm (GA) framework for the Traveling Salesman Problem (TSP), with a focus on comparing different parameter control strategies. Based on a unified operator design (selection, crossover, and mutation), the framework includes classic GA, semi-adaptive GA, and fully adaptive GA variants.
+
+The adaptive strategies adjust crossover and mutation probabilities according to population diversity and search progress, while hybrid selection mechanisms are explored to balance selection pressure and population stability. Multiple runs on standard TSPLIB instances are conducted, and detailed logs and visual analyses are provided to examine convergence behavior, parameter dynamics, and solution stability.
+
+The primary goal of this project is to study the practical effects of adaptive mechanisms in genetic algorithms, rather than to propose a state-of-the-art solver. The results are intended to support understanding and discussion of GA design choices in an experimental and educational context.
 ---
 
 
