@@ -35,7 +35,7 @@ The primary goal of this project is to study the practical effects of adaptive m
 │       └─adaptive.py
 ├─experiment
 │   └─run_experiment.py    # 实验设计 &  运行
-│experiment_results
+├─experiment_results
 │   └─figures    # analysis.py的绘图位置 
 ├─analysis
 │   ├─analysis.py
